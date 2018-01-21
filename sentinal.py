@@ -67,6 +67,51 @@ def delete_existing_url():
 # Creates database table if it doesn't exist.
 create_table()
 
+# Importing data for analysing. Default setting for database is date_analysed is null from crawled_Data.
+if text_file:
+	with open(text_location) as f:
+		data = f.read()
+		data = [data]
+	print(data)
+else:
+	data = select_crawled_data()
+	
+# Importing list of keywords you want to scan. ie companys/names/products
+with open("D:/Desktop/Code/Web Crawler/Keywords.txt") as k:
+	keyword_list = k.readlines()
+# Converting to lower case.	
+keyword_list = [x.lower() for x in keyword_list]
+# Stripping newline and whitespace	
+keyword_list = [x.strip() for x in keyword_list]
+
+# Importing list of peoples names
+with open("D:/Desktop/Code/Web Crawler/All_names.txt") as name:
+	name_list = name.readlines()
+name_list = [x.lower() for x in name_list]	
+name_list = [x.strip() for x in name_list]	
+
+# Importing positive word list
+with open("D:/Desktop/Code/Web Crawler/positive-words.txt") as p:
+	positive_list = p.readlines()	
+positive_list = [x.strip() for x in positive_list]
+
+# Importing negative word list
+with open("D:/Desktop/Code/Web Crawler/negative-words.txt") as n:
+	negative_list = n.readlines()
+negative_list = [x.strip() for x in negative_list] 
+
+# Importing phrase list and values for scoring, convert to csv for delimiter, create list and make lower case.
+with open("D:/Desktop/Code/Web Crawler/Phrase_scoring.txt") as phr:
+	phrase_list = csv.reader(phr, delimiter = ",")
+	phrase_list = list(phrase_list)
+phrase_list = [[j.lower() for j in i] for i in phrase_list]
+
+# Importing negation phrases.
+with open("D:/Desktop/Code/Web Crawler/Phrase_negation.txt") as frase:
+	frase_list = frase.readlines()
+frase_list = [x.lower() for x in frase_list]	
+frase_list = [x.strip() for x in frase_list]	
+
 c.close()
 conn.close()
 

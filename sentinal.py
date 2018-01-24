@@ -112,6 +112,60 @@ with open("D:/Desktop/Code/Web Crawler/Phrase_negation.txt") as frase:
 frase_list = [x.lower() for x in frase_list]	
 frase_list = [x.strip() for x in frase_list]	
 
+# Negation words - Negation reverses the polarity of a positive or negative word. ie: not good.
+NEGATION = r"""
+    (
+       never|no\s|nothing|nowhere|noone|none|not\s|
+       havent|hasnt|hadnt|cant|couldnt|shouldnt|
+       wont|wouldnt|dont|doesnt|didnt|isnt|arent|aint|n't
+	)"""
+NEGATION_RE = re.compile(NEGATION, re.VERBOSE)
+
+# Declaring variables
+keywords = []
+keyword_linger = []
+positives = []
+negatives = []
+key_sides = ""
+key_sides3 = ""
+key_sides4 = ""
+key_sides5 = ""
+score = 0
+total_score = 0
+scoreDict = {}
+nouns = []
+full_name = []
+fuller_name = []
+nameDict = {}
+single_name = ""
+single_names = []
+negate_counter = 0
+frase_counter = 0
+counter = 0
+
+# Main loop of data entries
+for link in data[0:]:
+	counter += 1
+	# Extracting wanted data from crawled DB. Modify to suit your own database.
+	if text_file:
+		sentiment_text = data[0]
+	else:
+		url = link[0]
+		article_date = link[1]
+		source = link[2]
+		location = link[3]
+		date_scraped = link[6]
+		sentiment_text = link[5]
+
+	# Converting to lower case	
+	sentiment_text = sentiment_text.lower()
+	# Adding spaces after full stops to filter sentences correctly.
+	sentiment_text = re.sub(r'\.', '. ', sentiment_text)
+	
+	# Tokenizing
+	word_text = word_tokenize(sentiment_text)		#Word Tokenize
+	sent_text = sent_tokenize(sentiment_text)		#Sentence Tokenize
+	
 c.close()
 conn.close()
 

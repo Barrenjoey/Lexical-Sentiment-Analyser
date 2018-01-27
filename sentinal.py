@@ -165,7 +165,42 @@ for link in data[0:]:
 	# Tokenizing
 	word_text = word_tokenize(sentiment_text)		#Word Tokenize
 	sent_text = sent_tokenize(sentiment_text)		#Sentence Tokenize
-	
+
+	# Looping through sentences to analyse each sentence.
+	for sent in sent_text:	
+		print(sent)
+		# Word tokenize for 1 sentence
+		single_sent = word_tokenize(sent)
+		# Part of Speech tags		
+		tagged = nltk.pos_tag(single_sent)	
+		# Compiling re negation
+		negate = re.findall(NEGATION_RE, sent) 	
+
+		# Looping through each word in sentence
+		for key in single_sent:	
+		# Flagging whether keyword is encountered and adding to list.
+			if key in keyword_list:
+				keywords.append(key)
+		# This allows for multiword keywords, up to 5 words in length.
+			key_sides += " " + key		#2 word keywords
+			key_sides3 += " " + key		#3 
+			key_sides4 += " " + key		#4
+			key_sides5 += " " + key		#5 
+		# Appening to list if multiword keyword in sentence.	
+			if key_sides in keyword_list:
+				keywords.append(key_sides)
+			elif key_sides3 in keyword_list:
+				keywords.append(key_sides3)
+			elif key_sides4 in keyword_list:
+				keywords.append(key_sides4)
+			elif key_sides5 in keyword_list:
+				keywords.append(key_sides5)
+		# Shifting words to the right for next loop.				
+			key_sides5 = key_sides4
+			key_sides4 = key_sides3
+			key_sides3 = key_sides	
+			key_sides = key
+			
 c.close()
 conn.close()
 

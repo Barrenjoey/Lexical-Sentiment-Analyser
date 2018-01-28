@@ -200,7 +200,32 @@ for link in data[0:]:
 			key_sides4 = key_sides3
 			key_sides3 = key_sides	
 			key_sides = key
+	
+	# Searching for Noun phrases to add to keywords list	
+		for word,pos in tagged:
+			if proper_noun:
+				if (pos == 'NNP' and word != 'My' and word not in keywords):
+					keywords.append(word)
 			
+	# People Names - Adding firstname to keywords. Also adds name and last name together then adds to keywords if successful.
+			if names:
+				if word in name_list:
+					full_name.append(word)
+					keywords.append(word)	
+			if full_names:		
+				if len(full_name) > 0:
+					if pos == 'NN':
+						full_name.append(word)
+						if len(full_name) == 2:
+							single_name = full_name[1]
+							full_name = full_name[0] + " " + full_name[1]
+							keywords.append(full_name)
+							nameDict[single_name] = full_name
+							fuller_name = full_name
+							full_name = []
+					else:
+						full_name = []
+						
 c.close()
 conn.close()
 

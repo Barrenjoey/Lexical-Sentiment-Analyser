@@ -225,7 +225,40 @@ for link in data[0:]:
 							full_name = []
 					else:
 						full_name = []
-						
+		
+	# Searching for positive words
+		for pos in single_sent:
+			if pos in positive_list:
+				positives.append(pos)
+				score += 1
+	# Searching for negative words
+		for neg in single_sent:
+			if neg in negative_list:
+				negatives.append(neg)
+				score += -1	
+				
+	# like negation		
+		for wrd,ps in tagged:
+			if (ps == 'IN' and wrd == 'like'):
+				print('like NEGATION!!!!')
+				score += -1			
+
+	# Adding space to no and not to match negation list			
+			if wrd == "not" or wrd == "no":
+				wrd = wrd + " "	
+
+	# Searching for negating words and turning their polarity by score. Positional counting system for assigning negation.		
+			if wrd in negate or negate_counter >= 1:
+				negate_counter += 1
+				if wrd in positives:
+					score += -2
+					negate_counter = 0
+				elif wrd in negatives:
+					score += 2
+					negate_counter = 0
+				elif negate_counter >= 6 or wrd == '.':
+					negate_counter = 0	
+					
 c.close()
 conn.close()
 

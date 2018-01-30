@@ -259,6 +259,32 @@ for link in data[0:]:
 				elif negate_counter >= 6 or wrd == '.':
 					negate_counter = 0	
 					
+	# Phrase scoring. Searching for phrase and then scoring by assigned value. ie. 'expected more' -1 
+		for phrases in phrase_list:
+			find_phrase = re.findall(phrases[0],sent)
+			if len(find_phrase) >= 1:
+				score += int(phrases[1])
+
+	# Phrase negation. Negating phrases and turning polarity. ie. 'could have' been better -1 		
+		for frase in frase_list:		
+			find_frase = re.findall(frase,sent)	
+			if len(find_frase) >= 1:
+				find_frase = word_tokenize(find_frase[0])
+				for werd in single_sent:
+					if werd in find_frase:
+						frase_counter += 1
+					if frase_counter == len(find_frase):
+						if werd in positives:
+							print('Phrase_negative: ',frase)
+							score += -2
+							frase_counter = 0
+						elif wrd in negatives:
+							print('Phrase_positive: ',find_phrase)
+							score += 2
+							frase_counter = 0
+						elif frase_counter >= 3 or werd == '.':
+							frase_counter = 0
+							
 c.close()
 conn.close()
 

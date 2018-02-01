@@ -284,6 +284,27 @@ for link in data[0:]:
 							frase_counter = 0
 						elif frase_counter >= 3 or werd == '.':
 							frase_counter = 0
+								
+	# Adding the keyword and score to a dictionary. Checking if keyword in dict, if so it adds the scores, else it creates new entry.		
+		for k in keywords:
+			if k in scoreDict:
+				y = scoreDict.get(k)
+				scoreDict[k] = y + score
+			else:	
+				scoreDict[k] = score
+			
+	# Scoring single word names to match with full name. Only does this if full name is not in sentence as well.				
+		if names and full_names:
+			for word in single_sent:		
+				if word in nameDict:
+					if len(fuller_name) == 0:
+						single_names.append(word)
+						z = nameDict.get(word)
+						try:
+							s = scoreDict.get(z)
+							scoreDict[z] = s + score
+						except Exception as e:	
+							print("Error updating score from single name with full name" + str(e))	
 							
 c.close()
 conn.close()

@@ -305,7 +305,31 @@ for link in data[0:]:
 							scoreDict[z] = s + score
 						except Exception as e:	
 							print("Error updating score from single name with full name" + str(e))	
-							
+						
+	# Assigning pos/neg words to previous sentence keyword		
+		if score != 0 and len(keywords) == 0 and len(scoreDict) != 0:
+			for l in keyword_linger:
+				x = scoreDict.get(l)
+				scoreDict[l] = score + x
+				
+	# Printing desired sentence info for console viewing
+		print("Sentence score: ",score)
+		print ("Positive Words: ",positives)
+		print ("Negative Words: ",negatives)
+		print("Keywords: ",keywords)
+		print()
+		
+	# Resetting active variables for next sentence.	
+		keyword_linger = keywords
+		keywords = []
+		total_score = total_score + score
+		score = 0
+		positives = []
+		negatives = []
+		negate = []
+		single_names = []
+		fuller_name = []
+		
 c.close()
 conn.close()
 

@@ -1,5 +1,13 @@
 '''
 ### Lexical Sentiment Analyser ###
+This script either extracts data from a database to be analysed, or from a chosen text file. 
+It then extracts sentiment based on keywords which are determined by the user. Or it can simply
+be used to determine the overall sentiment of a body of text without assigning the sentiment to
+a keyword. Lastly, it returns the analysed data to a new database, which records instances of 
+mentioned sentiment for that keyword, and displays the overall text sentiment within the console.
+The script may be modified easily, such as changing between text files and database importation,
+setting whether first and full-names will be added to flagged keywords, and also determining
+whether keywords are automatically found by selecting the proper noun switch.
 '''
 from nltk.tokenize import sent_tokenize, word_tokenize
 import nltk
@@ -330,6 +338,27 @@ for link in data[0:]:
 		single_names = []
 		fuller_name = []
 		
+	# Printing desired combined info for the whole of the text.
+	print(scoreDict)
+	print("Total Score: ",total_score)
+	print(counter)
+
+	# Data entry - Uploading analysed data to a database table if desired.
+	if not text_file:
+		date_analysed()
+		select_existing_url()
+		for topic in scoreDict:
+			upload_score = scoreDict[topic]
+			data_entry()
+			
+	# Resetting text wide variables for next text.		
+	scoreDict = {}
+	total_score = 0	
+	nameDict = {}
+	print("#" * 40)
+	print("\n")
+
+# Closing database connection.
 c.close()
 conn.close()
 

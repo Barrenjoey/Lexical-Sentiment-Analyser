@@ -1,0 +1,18 @@
+little improvement, -2
+expected more, -1
+Bad ass, +2 
+expect more, -1
+high end, +1
+dealbreaker, -1
+deal breaker, -1
+bigger than ever, +1
+% off, +1
+beauty products, -1
+will have access, +1
+on sale, +1
+yet to report, -1
+one of the first, +1
+shows off, +1
+showed off, +1
+show off, -1
+will not receive, -1
